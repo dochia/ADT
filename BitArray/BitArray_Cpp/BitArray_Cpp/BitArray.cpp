@@ -1,11 +1,9 @@
 #include "BitArray.h"
 
-
-
 BitArray::BitArray(set<int> newValues)
 {	
-	bool incomplete_bite = *(newValues.end()) % sizeof(int) != 0;
-	bit_array_size = *(newValues.end()) / sizeof(int) + (incomplete_bite ? 1 : 0);
+	bool incomplete_bite = (*(newValues.crbegin()) + 1) % sizeof(int) != 0;
+	bit_array_size = (*(newValues.crbegin()) + 1) / sizeof(int) + (incomplete_bite ? 1 : 0);
 	bit_arr = new unsigned int[bit_array_size];
 	capacity = bit_array_size * sizeof(int);
 	initialize_bit_array();
@@ -31,20 +29,23 @@ void BitArray::initialize_bit_array()
 
 void BitArray::add(int value)
 {
+	if (value > capacity)
+		throw out_of_range("Value larger than capacity");
 	int location_bit = value / sizeof(int);
 	int mask = sizeof(int) - value % sizeof(int);
 	int shift = 1 << mask;
 	*(bit_arr + location_bit) |= shift;
 	int number = *(bit_arr + location_bit);
-	printf("\n%d\n", number);
 }
 
 BitArray::~BitArray()
 {
+	delete(this->bit_arr);
 }
 
-void BitArray::print()
+string BitArray::print()
 {
+	string result = "";
 	for (int i = 0; i < bit_array_size; i++)
 	{
 		int mask = 1 << sizeof(int);
@@ -52,16 +53,34 @@ void BitArray::print()
 		for (int j = 0; j < sizeof(int); j++)
 		{
 			int aux = number & mask;
-			printf("%d ", aux == mask? 1 : 0);
+			//printf("%d ", aux == mask? 1 : 0);
+			result.append(aux == mask ? "1 " : "0 ");
 			mask = mask >> 1;
 		}
 	}
-	printf("\n");
+	//printf("\n");
+	return result;
 }
 
 int BitArray::getCapacity()
 {
 	return this->capacity;
+}
+
+int BitArray::getCount()
+{
+	int result = 0;
+	for (int i = 0; i < bit_array_size; i++)
+	{
+		int aux = *(bit_arr + i);
+		int j;
+		for (j = 0; aux; j++)
+		{
+			aux &= aux - 1;
+		}
+		result += j;
+	}
+	return result;
 }
 
 bool BitArray::remove(int value)
@@ -78,4 +97,10 @@ bool BitArray::remove(int value)
 		*(bit_arr + location_bit) &= ~mask;
 		return true;
 	}
+}
+
+bool BitArray::isPresent(int position)
+{
+	int mask = 1 << (sizeof(int) - position % sizeof(int));
+	return  (*(bit_arr + position / sizeof(int)) & mask) == mask ;
 }

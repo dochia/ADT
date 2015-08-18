@@ -1,6 +1,7 @@
 #pragma once
 #include <set>
 #include <limits.h>
+#include <string>
 
 using namespace std;
 
@@ -16,9 +17,15 @@ public:
 	BitArray(int size);
 	BitArray(set<int> newValues);
 	~BitArray();
-	void add(int value);
-	void print();
-	int getCapacity();
+	
+	void add(int value); 
 	bool remove(int value);
+	
+	string print();
+	
+	int getCapacity();
+	int getCount();
+
+	bool isPresent(int position);
 };
 
