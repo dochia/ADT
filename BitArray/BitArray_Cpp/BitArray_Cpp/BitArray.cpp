@@ -67,18 +67,23 @@ int BitArray::getCapacity()
 	return this->capacity;
 }
 
+int BitArray::countSetBits(int n)
+{
+	int j;
+	for (j = 0; n; j++)
+	{
+		n &= n - 1;
+	}
+	return j;
+}
+
 int BitArray::getCount()
 {
 	int result = 0;
 	for (int i = 0; i < bit_array_size; i++)
 	{
 		int aux = *(bit_arr + i);
-		int j;
-		for (j = 0; aux; j++)
-		{
-			aux &= aux - 1;
-		}
-		result += j;
+		result += countSetBits(aux);
 	}
 	return result;
 }

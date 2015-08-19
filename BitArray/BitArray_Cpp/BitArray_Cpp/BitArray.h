@@ -12,6 +12,7 @@ private:
 	unsigned int* bit_arr;
 	int capacity;
 	void initialize_bit_array();
+	int countSetBits(int n);
 
 public:
 	BitArray(int size);

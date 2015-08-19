@@ -14,11 +14,11 @@ namespace UnitTest1
 		
 		TEST_METHOD(TestCapacity_positive)
 		{
-			// TODO: Your test code here
 			int size = 1;
 			BitArray b = BitArray(size);
 			Assert::IsTrue(b.getCapacity() == sizeof(unsigned int) * size, L"Wrong capacity", LINE_INFO());
 		}
+		
 		TEST_METHOD(TestCapacity_negative)
 		{
 			int size = 2;
@@ -34,6 +34,7 @@ namespace UnitTest1
 			b.add(3);
 			Assert::IsTrue(b.getCount() == 2, L"Wrong number of bits set", LINE_INFO());
 		}
+
 		TEST_METHOD(TestCount_negative)
 		{
 			int size = 1;
@@ -50,6 +51,7 @@ namespace UnitTest1
 			b.add(0);
 			Assert::IsTrue(b.isPresent(0), L"Value 0 is not set", LINE_INFO());
 		}
+		
 		TEST_METHOD(TestAdd_negative)
 		{
 			int size = 1;
@@ -73,6 +75,7 @@ namespace UnitTest1
 			Assert::IsTrue(b.isPresent(3), L"Bit 3 is set", LINE_INFO());
 			Assert::IsTrue(b.isPresent(9), L"Bit 9 is set", LINE_INFO());
 		}
+		
 		TEST_METHOD(TestIsPresent_negative)
 		{
 			BitArray b = BitArray({ 1, 3, 5, 6, 7, 9 });
@@ -87,6 +90,7 @@ namespace UnitTest1
 			b.add(5);
 			Assert::IsTrue(b.print() == "0 1 1 1 1 1 0 0 ", L"Bit set print", LINE_INFO());
 		}
+		
 		TEST_METHOD(TestPrint_negative)
 		{
 			BitArray b = BitArray({ 1, 2, 3, 4 });
